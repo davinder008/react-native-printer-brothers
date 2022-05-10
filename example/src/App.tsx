@@ -1,18 +1,54 @@
-import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-printer-brothers';
+import React from 'react';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
+import {
+  getConnectedBluetoothDevices,
+  connectPrinter,
+  printImageWithBlueToothPrinter,
+} from 'react-native-printer-brothers';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState([]);
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    // getConnectedBluetoothDevices()
+    //   .then((response) => {
+    //     setResult(JSON.parse(response));
+    //     console.log('getConnectedBluetoothDevices', JSON.parse(response));
+    //   })
+    //   .catch((error) => console.log('error', error));
+
+    // connectPrinter('3C:07:84:D8:D1:EE')
+    //   .then((response) => {
+    //     console.log('connectPrinter', response);
+    //   })
+    //   .catch((error) => console.log('error', error));
+
+    printImageWithBlueToothPrinter('3C:07:84:D8:D1:EE', '')
+      .then((response) => {
+        console.log('printImageWithBlueToothPrinter', response);
+      })
+      .catch((error) => console.log('error >>>>>>', error));
   }, []);
+
+  const renderItems = ({ item, index }) => {
+    return (
+      <View>
+        <Text>
+          {item.name + ' - '}
+          <Text>{item.macAddress}</Text>
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <FlatList
+        data={result}
+        extraData={result}
+        renderItem={renderItems}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 }
@@ -20,7 +56,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
   },
   box: {

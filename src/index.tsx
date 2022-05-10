@@ -6,8 +6,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const PrinterBrothers = NativeModules.PrinterBrothers
-  ? NativeModules.PrinterBrothers
+const BROTHER_PRINTER = NativeModules.BROTHER_PRINTER
+  ? NativeModules.BROTHER_PRINTER
   : new Proxy(
       {},
       {
@@ -17,6 +17,17 @@ const PrinterBrothers = NativeModules.PrinterBrothers
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return PrinterBrothers.multiply(a, b);
+export function getConnectedBluetoothDevices(): Promise<string> {
+  return BROTHER_PRINTER.getConnectedBluetoothDevices();
+}
+
+export function connectPrinter(macAddress: string): Promise<string> {
+  return BROTHER_PRINTER.connectPrinter(macAddress);
+}
+
+export function printImageWithBlueToothPrinter(
+  macAddress: string,
+  filePath: string
+): Promise<string> {
+  return BROTHER_PRINTER.printImageWithBlueToothPrinter(macAddress, filePath);
 }
