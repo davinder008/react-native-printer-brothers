@@ -10,13 +10,13 @@ npm install react-native-printer-brothers
 
 ## Usage
 
-```js
+<!-- ```js
 import { multiply } from "react-native-printer-brothers";
 
 // ...
 
 const result = await multiply(3, 7);
-```
+``` -->
 
 ## Contributing
 
